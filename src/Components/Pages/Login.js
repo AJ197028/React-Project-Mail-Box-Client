@@ -1,15 +1,22 @@
 import React, { useRef, useState } from "react";
-
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-
 import { authActions } from "../Store";
+
+function removeSpecialChar(mail) {
+  let newMail = "";
+  for (let i = 0; i < mail.length; i++) {
+    if (mail[i] !== "@" && mail[i] !== ".") {
+      newMail += mail[i];
+    }
+  }
+  return newMail;
+}
 
 const Login = () => {
   const [login, setLogin] = useState(false);
-
   const enteredMail = useRef();
   const enteredPassword = useRef();
   const enteredConfirmPassword = useRef();
@@ -32,7 +39,7 @@ const Login = () => {
         if (
           enteredPassword.current.value !== enteredConfirmPassword.current.value
         ) {
-          alert("password and confirmPassword not matching");
+          alert("password and confirmPasswors not matching");
         } else {
           try {
             let responce = await fetch(
@@ -87,9 +94,16 @@ const Login = () => {
             const data = await responce.json();
             console.log(data.idToken);
             dispatch(authActions.setToken(data.idToken));
+            dispatch(
+              authActions.setUser(removeSpecialChar(enteredMail.current.value))
+            );
             localStorage.setItem("token", data.idToken);
             console.log("User has successfully Log in");
             alert(`User has successfully logged in`);
+            localStorage.setItem(
+              "user",
+              removeSpecialChar(enteredMail.current.value)
+            );
             history.push("/profile");
           } else {
             alert("Authentication failed");
@@ -103,6 +117,7 @@ const Login = () => {
       }
     }
   };
+
   return (
     <div className="container w-25 my-3 border border-1 align-top bg-light rounded">
       <Form className="my-auto">
