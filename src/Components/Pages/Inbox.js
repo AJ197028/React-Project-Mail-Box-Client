@@ -39,6 +39,28 @@ function Inbox() {
     history.push("/composemail");
   };
 
+  const handleDelete = async (msg) => {
+    // console.log("deleted");
+    try {
+      let responce = await fetch(
+        `https://mail-box-client-81dd8-default-rtdb.firebaseio.com/mail/${user}/${msg.name}.json`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      )
+      if (responce.ok) {
+        console.log("deleted successfully")
+      } else {
+        throw new Error("Failed to delete mail")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const handleReadedMessage = async (message) => {
     console.log(message);
     console.log("clicked");
@@ -102,9 +124,11 @@ function Inbox() {
   }, [user, messages]);
 
   return (
-    <div className="container">
-      <div className="my-2  mx-2 row">
-        <h1 className="fst-italic col-md-8">Welcome to your mail box!!!</h1>
+    <div className='container'>
+      <div className='my-2  mx-2 row'>
+        <h1 className="fst-italic col-md-8" >
+          Welcome to your mail box!!!
+        </h1>
         <hr />
       </div>
       <div>
@@ -113,22 +137,37 @@ function Inbox() {
         </Button>
       </div>
       <div>
-        <h1 className="text-center">Inbox</h1>
-        <span className="float-right h4">Unread Messages:{countUnreadMessages(messages)}</span>
+        <h1 className='text-center'>Inbox</h1>
+        <span className='float-right h4'>Unread Messages:{countUnreadMessages(messages)}</span>
       </div>
       {messages.map((message) => {
-        return (
-          <Accordion defaultActiveKey="0" onClick={() => handleReadedMessage(message)}>
-            <Accordion.Item eventKey="1">
-              <Accordion.Header>{!message.isReaded && <Dot width={30} height={30} color="blue" />} From:{message.Sender}</Accordion.Header>
-              <Accordion.Body>
-                <h5>Subject:{message.mailSubject}</h5>
-                <p>Message:{message.mailContent}</p>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-        );
-      })}
+        return <div key={message.name}>
+          <div className="container">
+            <div className="row">
+              <div className="col-11">
+                <Accordion defaultActiveKey="0" onClick={() => handleReadedMessage(message)}>
+                  <Accordion.Item eventKey="1">
+                    <Accordion.Header>
+                      {!message.isReaded && <Dot width={30} height={30} color="blue" />}
+                      From:{message.Sender}
+                    </Accordion.Header>
+                    <Accordion.Body>
+                      <h5>Subject:{message.mailSubject}</h5>
+                      <p>{message.mailContent}</p>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+              </div>
+              <div className="col-1">
+                <Button variant="danger" onClick={() => handleDelete(message)}>
+                  DELETE
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      })
+      }
     </div>
   );
 }
