@@ -15,6 +15,7 @@ const Navigationbar = () => {
             <Nav.Link as={Link} exact to="/">Home</Nav.Link>
             <Nav.Link as={Link} exact to="/inbox">Inbox</Nav.Link>
             <Nav.Link as={Link} exact to="/composemail">Send Mail</Nav.Link>
+            <Nav.Link as={Link} exact to="/sent">Sent</Nav.Link>
           </Nav>
       </Container>
     </Navbar>

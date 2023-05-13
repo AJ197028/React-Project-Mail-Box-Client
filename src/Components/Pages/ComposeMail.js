@@ -16,6 +16,7 @@ function removeSpecialChar(mail) {
 }
 
 function ComposeMail() {
+    const user = removeSpecialChar(useSelector(state => state.authentication.user));
     const receiver = useRef();
     const subject = useRef();
     const mailBody = useRef();
@@ -59,6 +60,27 @@ function ComposeMail() {
                     let data = await responce.json();
                     console.log(data);
                     alert("mail sent successfully");
+                    try {
+                        let responce = await fetch(
+                            `https://mail-box-client-81dd8-default-rtdb.firebaseio.com/sentmail/${user}.json`,
+                            {
+                                method: 'POST',
+                                body: JSON.stringify({...newMail,receiver:receiver.current.value}),
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                            }
+                        )
+                        if (responce.ok) {
+                            let data = await responce.json();
+                            console.log(data);
+                           console.log("sent to sent mail")
+                        } else {
+                            throw new Error("Failed to send in sent mail")
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
                 } else {
                     throw new Error("Failed to send mail")
                 }

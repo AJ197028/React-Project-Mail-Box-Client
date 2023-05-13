@@ -2,11 +2,13 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 
 const inititalAuthState = {
     token: localStorage.getItem("token"),
-    user:localStorage.getItem("user")
+    user: localStorage.getItem("user")
 }
 
 const inititalMessageState = {
-    messages: []
+    messages: [],
+    sentMessages:[],
+    unreadMessages:0,
 }
 
 const authSlice = createSlice({
@@ -15,6 +17,9 @@ const authSlice = createSlice({
     reducers: {
         setToken(state, action) {
             state.token = action.payload;
+        },
+        setUser(state, action) {
+            state.user = action.payload;
         },
         setUser(state, action) {
             state.user = action.payload;
@@ -28,7 +33,13 @@ const messageSlice = createSlice({
     reducers: {
         setMessages(state, action) {
             state.messages = action.payload;
-        }
+        },
+        setSentMessages(state, action) {
+            state.sentMessages = action.payload;
+        },
+        setUnreadMessages(state, action) {
+            state.unreadMessages = action.payload;
+        },
     }
 })
 
