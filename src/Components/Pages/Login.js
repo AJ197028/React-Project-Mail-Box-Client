@@ -59,6 +59,11 @@ const Login = () => {
             if (responce.ok) {
               console.log("User has successfully signed up");
               alert(`User has successfully signed up`);
+              const data=await responce.json();
+              dispatch(authActions.setToken(data.idToken));
+              dispatch(authActions.setUser(enteredMail.current.value));
+              localStorage.setItem("token",data.idToken);
+              localStorage.setItem("user",enteredMail.current.value);
             } else {
               alert("Authentication failed");
               throw new Error("Sign up failed");
@@ -91,20 +96,15 @@ const Login = () => {
             }
           );
           if (responce.ok) {
-            const data = await responce.json();
+            const data=await responce.json();
             console.log(data.idToken);
             dispatch(authActions.setToken(data.idToken));
-            dispatch(
-              authActions.setUser(removeSpecialChar(enteredMail.current.value))
-            );
-            localStorage.setItem("token", data.idToken);
+            dispatch(authActions.setUser(enteredMail.current.value));
+            localStorage.setItem("token",data.idToken);
             console.log("User has successfully Log in");
             alert(`User has successfully logged in`);
-            localStorage.setItem(
-              "user",
-              removeSpecialChar(enteredMail.current.value)
-            );
-            history.push("/profile");
+            localStorage.setItem("user",enteredMail.current.value);
+            history.push('/inbox');
           } else {
             alert("Authentication failed");
             throw new Error("Log in failed");

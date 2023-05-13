@@ -1,8 +1,9 @@
 import React, { Fragment, useRef, useState } from 'react';
+import './Inbox';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
 
 function removeSpecialChar(mail) {
     let newMail = "";
@@ -24,11 +25,11 @@ function ComposeMail() {
         EditorState.createEmpty()
     );
 
-    // const updateTextDescription = async (state) => {
-    //     await setEditorState(state);
-    //     const data = convertToRaw(editorState.getCurrentContent());
-
-    // };
+    const updateTextDescription = async (state) => {
+        await setEditorState(state);
+        const data = convertToRaw(editorState.getCurrentContent());
+    };
+    
     const handleSendMail = async (e) => {
         e.preventDefault();
         console.log("sended");

@@ -2,9 +2,9 @@ import { Fragment } from "react";
 import Navigationbar from "./Components/Layout/Navigationbar";
 import Login from "./Components/Pages/Login";
 import "./App.css";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import DummyScreen from "./Components/Layout/DummyScreen";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Inbox from "./Components/Pages/Inbox";
 import ComposeMail from './Components/Pages/ComposeMail';
 
 function App() {
@@ -13,20 +13,20 @@ function App() {
   return (
     <Fragment>
       <Navigationbar />
-      <BrowserRouter>
+      <div>
         <Switch>
           <Route exact path="/">
             <Login />
           </Route>
-           <Route exact path='/composemail'>
+            <Route exact path='/composemail'>
             <ComposeMail />
           </Route>
-          <Route exact path="/profile">
-            {token && <DummyScreen />}
-            {!token && <Redirect to="/" />}
+          <Route exact path='/inbox'>
+            {token && <Inbox />}
+            {!token && <Redirect to='/' />}
           </Route>
         </Switch>
-      </BrowserRouter>
+      </div>
     </Fragment>
   );
 }
