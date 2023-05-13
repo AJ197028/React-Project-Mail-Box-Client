@@ -33,7 +33,7 @@ const messageSlice = createSlice({
 })
 
 const store = configureStore({
-    reducer: {authentication: authSlice.reducer, messages:messageSlice.reducer }
+    reducer: {authentication: authSlice.reducer, messages: messageSlice.reducer }
 });
 
 export default store;

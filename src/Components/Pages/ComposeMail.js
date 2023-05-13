@@ -3,7 +3,7 @@ import './Inbox';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState } from 'draft-js';
 
 function removeSpecialChar(mail) {
     let newMail = "";
@@ -25,10 +25,10 @@ function ComposeMail() {
         EditorState.createEmpty()
     );
 
-    const updateTextDescription = async (state) => {
-        await setEditorState(state);
-        const data = convertToRaw(editorState.getCurrentContent());
-    };
+    // const updateTextDescription = async (state) => {
+    //     await setEditorState(state);
+    //     const data = convertToRaw(editorState.getCurrentContent());
+    // };
     
     const handleSendMail = async (e) => {
         e.preventDefault();
@@ -38,7 +38,8 @@ function ComposeMail() {
         const newMail = {
             mailSubject: subject.current.value,
             mailContent: mailBody.current.value,
-            Sender: sender
+            Sender: sender,
+            isReaded: false
         }
 
         if (receiver.current.value.length > 0 && mailBody.current.value.length > 0 && subject.current.value.length > 0) {

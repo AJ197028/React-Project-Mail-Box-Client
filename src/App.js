@@ -13,12 +13,11 @@ function App() {
   return (
     <Fragment>
       <Navigationbar />
-      <div>
         <Switch>
           <Route exact path="/">
             <Login />
           </Route>
-            <Route exact path='/composemail'>
+          <Route exact path='/composemail'>
             <ComposeMail />
           </Route>
           <Route exact path='/inbox'>
@@ -26,7 +25,6 @@ function App() {
             {!token && <Redirect to='/' />}
           </Route>
         </Switch>
-      </div>
     </Fragment>
   );
 }

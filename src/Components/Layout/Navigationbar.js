@@ -12,9 +12,9 @@ const Navigationbar = () => {
       <Container>
           <Navbar.Brand exact to="/">MyWebLink</Navbar.Brand>
           <Nav className="me-auto">
-              <Nav.Link exact to="/">Home</Nav.Link>
-              <Nav.Link exact to="/pofile">Welcome</Nav.Link>
-              <Nav.Link exact to="/composemail">Send Mail</Nav.Link>
+            <Nav.Link as={Link} exact to="/">Home</Nav.Link>
+            <Nav.Link as={Link} exact to="/inbox">Inbox</Nav.Link>
+            <Nav.Link as={Link} exact to="/composemail">Send Mail</Nav.Link>
           </Nav>
       </Container>
     </Navbar>

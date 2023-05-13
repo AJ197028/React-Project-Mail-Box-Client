@@ -5,12 +5,12 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { authActions } from "../Store";
 
-function removeSpecialChar(mail) {
-  let newMail = "";
-  for (let i = 0; i < mail.length; i++) {
-    if (mail[i] !== "@" && mail[i] !== ".") {
-      newMail += mail[i];
-    }
+function removeSpecialChar(mail){
+  let newMail="";
+  for(let i=0;i<mail.length;i++){
+      if(mail[i]!=="@" && mail[i]!=="."){
+      newMail +=mail[i]
+      }
   }
   return newMail;
 }
@@ -53,13 +53,13 @@ const Login = () => {
                 }),
                 headers: {
                   "Content-Type": "application/json",
-                },
+                }
               }
             );
             if (responce.ok) {
               console.log("User has successfully signed up");
               alert(`User has successfully signed up`);
-              const data=await responce.json();
+              const data = await responce.json();
               dispatch(authActions.setToken(data.idToken));
               dispatch(authActions.setUser(enteredMail.current.value));
               localStorage.setItem("token",data.idToken);
@@ -96,7 +96,7 @@ const Login = () => {
             }
           );
           if (responce.ok) {
-            const data=await responce.json();
+            const data = await responce.json();
             console.log(data.idToken);
             dispatch(authActions.setToken(data.idToken));
             dispatch(authActions.setUser(enteredMail.current.value));
