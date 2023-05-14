@@ -1,9 +1,8 @@
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useRef } from 'react';
 import './Inbox';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { EditorState } from 'draft-js';
 
 function removeSpecialChar(mail) {
     let newMail = "";
@@ -22,9 +21,9 @@ function ComposeMail() {
     const mailBody = useRef();
     const sender = useSelector(state => state.authentication.user);
 
-    const [editorState, setEditorState] = useState(() =>
-        EditorState.createEmpty()
-    );
+    // const [editorState, setEditorState] = useState(() =>
+    //     EditorState.createEmpty()
+    // );
 
     // const updateTextDescription = async (state) => {
     //     await setEditorState(state);

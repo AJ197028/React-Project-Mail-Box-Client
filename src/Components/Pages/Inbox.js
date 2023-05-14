@@ -20,7 +20,7 @@ function removeSpecialChar(mail) {
 function countUnreadMessages(arr) {
   let unreadeMessages = 0;
   for (let i = 0; i < arr.length; i++) {
-    if (!arr.isReaded) {
+    if (!arr[i].isReaded) {
       unreadeMessages = unreadeMessages + 1;
     }
   }
@@ -61,13 +61,13 @@ function Inbox() {
     }
   }
 
-  const handleReadedMessage = async (message) => {
-    console.log(message);
+  const handleReadedMessage = async (msg) => {
+    console.log(msg);
     console.log("clicked");
-    console.log(user, message.name);
+    console.log(user, msg.name);
     try {
       let responce = await fetch(
-        `https://mail-box-client-81dd8-default-rtdb.firebaseio.com/mail/${user}/${message.name}.json`,
+        `https://mail-box-client-81dd8-default-rtdb.firebaseio.com/mail/${user}/${msg.name}.json`,
         {
           method: "PATCH",
           headers: {
@@ -100,14 +100,22 @@ function Inbox() {
         )
         if (responce.ok) {
           let data = await responce.json();
-          console.log(data);
-          const keys = Object.keys(data);
+          //console.log(data);
           let newMessageArray = [];
-          keys.forEach((key) => {
-            newMessageArray.unshift({ ...data[key], name: key });
-          });
-          console.log(newMessageArray);
-          dispatch(messageActions.setMessages(newMessageArray));
+          if (data == null) {
+            newMessageArray = [];
+            dispatch(messageActions.setMessages(newMessageArray));
+            dispatch(messageActions.setUnreadMessages(countUnreadMessages(newMessageArray)));
+          } else {
+            const keys = Object.keys(data);
+            // console.log("keys", keys);
+            keys.forEach((key) => {
+              newMessageArray.unshift({ ...data[key], name: key })
+            });
+            console.log(newMessageArray);
+            dispatch(messageActions.setMessages(newMessageArray));
+            dispatch(messageActions.setUnreadMessages(countUnreadMessages(newMessageArray)));
+          }
         } else {
           throw new Error("Failed to fetch mail");
         }
@@ -121,7 +129,7 @@ function Inbox() {
     return () => {
       clearTimeout(fetching);
     };
-  }, [user, messages]);
+  }, [user, messages, dispatch]);
 
   return (
     <div className='container'>
@@ -138,7 +146,7 @@ function Inbox() {
       </div>
       <div>
         <h1 className='text-center'>Inbox</h1>
-        <span className='float-right h4'>Unread Messages:{countUnreadMessages(messages)}</span>
+        <span className='float-right h4'>Unread Messages: {countUnreadMessages(messages)}</span>
       </div>
       {messages.map((message) => {
         return <div key={message.name}>

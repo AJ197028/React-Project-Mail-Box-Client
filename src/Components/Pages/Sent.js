@@ -22,7 +22,7 @@ const Sent = () => {
     async function fetchSentMessages() {
       try {
         let responce = await fetch(
-          `https://mail-box-client-81dd8-default-rtdb.firebaseio.com/sentmail/${user}.json`,
+          `https://mail-box-client-81dd8-default-rtdb.firebaseio.com/sentmail/${(user)}.json`,
           {
             method: "GET",
             headers: {

@@ -7,8 +7,8 @@ const inititalAuthState = {
 
 const inititalMessageState = {
     messages: [],
-    sentMessages:[],
-    unreadMessages:0,
+    sentMessages: [],
+    unreadMessages: 0,
 }
 
 const authSlice = createSlice({
@@ -21,9 +21,6 @@ const authSlice = createSlice({
         setUser(state, action) {
             state.user = action.payload;
         },
-        setUser(state, action) {
-            state.user = action.payload;
-        }
     }
 })
 
@@ -44,7 +41,7 @@ const messageSlice = createSlice({
 })
 
 const store = configureStore({
-    reducer: {authentication: authSlice.reducer, messages: messageSlice.reducer }
+    reducer: { authentication: authSlice.reducer, messages: messageSlice.reducer }
 });
 
 export default store;

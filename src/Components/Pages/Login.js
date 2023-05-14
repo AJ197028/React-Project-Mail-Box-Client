@@ -5,16 +5,6 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { authActions } from "../Store";
 
-function removeSpecialChar(mail){
-  let newMail="";
-  for(let i=0;i<mail.length;i++){
-      if(mail[i]!=="@" && mail[i]!=="."){
-      newMail +=mail[i]
-      }
-  }
-  return newMail;
-}
-
 const Login = () => {
   const [login, setLogin] = useState(false);
   const enteredMail = useRef();
